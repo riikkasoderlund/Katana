@@ -1,0 +1,101 @@
+# Executive Dashboard Configuration
+# Last updated: 2026-02-02
+
+schedule:
+  cron: "0 7 * * *"  # 7 AM daily
+  timezone: "Europe/Helsinki"
+
+notifications:
+  slack:
+    channel: "@riikka"
+    enabled: true
+
+# Data source connections (via connectors)
+data_sources:
+  hubspot:
+    connector: "hubspot"
+    pipeline_stages:
+      - "Qualification"
+      - "Solution Validation"
+      - "Order form sent"
+      - "Closed Won"
+      - "Closed Lost"
+
+  databricks:
+    connector: "databricks_genie"
+    tables:
+      mrr: "finance.mrr_daily"
+      churn: "finance.churn_events"
+      customers: "finance.customers"
+
+# 2026 Monthly Revenue Targets (from financial plan)
+targets:
+  2026:
+    "01":
+      new_business_mrr: 31675
+      net_new_mrr: 14060
+      mrr_eom: 1099931
+    "02":
+      new_business_mrr: 33425
+      net_new_mrr: 15106
+      mrr_eom: 1115037
+    "03":
+      new_business_mrr: 38500
+      net_new_mrr: 17891
+      mrr_eom: 1132928
+    "04":
+      new_business_mrr: 43575
+      net_new_mrr: 25747
+      mrr_eom: 1158675
+    "05":
+      new_business_mrr: 51275
+      net_new_mrr: 34792
+      mrr_eom: 1193467
+    "06":
+      new_business_mrr: 52325
+      net_new_mrr: 35827
+      mrr_eom: 1229294
+    "07":
+      new_business_mrr: 53375
+      net_new_mrr: 38237
+      mrr_eom: 1267531
+    "08":
+      new_business_mrr: 53900
+      net_new_mrr: 38750
+      mrr_eom: 1306281
+    "09":
+      new_business_mrr: 57575
+      net_new_mrr: 41254
+      mrr_eom: 1347535
+    "10":
+      new_business_mrr: 67025
+      net_new_mrr: 51425
+      mrr_eom: 1398960
+    "11":
+      new_business_mrr: 74025
+      net_new_mrr: 60614
+      mrr_eom: 1459574
+    "12":
+      new_business_mrr: 71225
+      net_new_mrr: 59419
+      mrr_eom: 1518993
+
+# Performance thresholds for RAG status
+thresholds:
+  pipeline:
+    # Days to flag stale deals
+    stale_days: 14
+    # % of target pipeline coverage needed
+    coverage_green: 1.2  # 120%+ = green
+    coverage_yellow: 0.8  # 80-120% = yellow, <80% = red
+
+  revenue:
+    # % of MTD target achievement
+    mtd_green: 0.95  # 95%+ of pace = green
+    mtd_yellow: 0.80  # 80-95% = yellow, <80% = red
+
+  churn:
+    # MRR churn threshold for alerts
+    daily_churn_alert: 5000  # Alert if single day churn > $5k
+    gross_churn_green: 0.025  # <2.5% monthly = green
+    gross_churn_yellow: 0.030  # 2.5-3% = yellow, >3% = red
