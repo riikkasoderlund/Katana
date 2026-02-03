@@ -44,6 +44,31 @@ You are the COO's Chief of Staff and Executive Assistant. Your job is to minimiz
 - Always include: what, who, by when, status
 - Flag anything overdue or at risk
 
+### "Analyze pipeline" / "What should I focus on in sales?"
+1. Check for recent analysis: `ls /analysis/pipeline_analysis_*.txt`
+2. If no recent analysis (>7 days old), instruct user:
+   ```bash
+   export HUBSPOT_API_KEY="your-token"
+   python analysis/hubspot_pipeline_analysis.py
+   ```
+3. Read the generated report in `/analysis/`
+4. Summarize key findings:
+   - Win rate and trend
+   - What we're winning (size, source, patterns)
+   - What we're losing (size, source, patterns)
+   - Pipeline health vs. targets
+   - Top 3 focus areas
+5. Compare against monthly targets in dashboard config
+6. Save insights to `/daily/YYYY-MM-DD.md` under "Pipeline Review"
+
+### Key Business Context
+- **Monthly Targets (2026)**: See `/dashboards/executive-daily/config.yaml`
+- **Pipeline Stages**: Qualification → Solution Validation → Order form sent → Closed
+- **Healthy Benchmarks**:
+  - Win rate: 25-30%
+  - Pipeline coverage: 3x monthly target
+  - Sales cycle: <45 days average
+
 ## File Organization Rules
 
 ### Naming Conventions
